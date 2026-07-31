@@ -19,44 +19,23 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Prepare Project Files
+    - name: Extract Project Files
       run: |
         if [ -f "app.zip" ]; then
           unzip -q app.zip -d .
         fi
-        
-        if [ ! -f "settings.gradle" ] && [ ! -f "settings.gradle.kts" ]; then
+        if [ ! -f "settings.gradle" ]; then
           echo "include ':app'" > settings.gradle
-        fi
-
-        # التأكد من وجود ملف الإعدادات الرئيسي للـ repositories والـ plugins
-        if [ ! -f "build.gradle" ]; then
-          cat << 'EOF' > build.gradle
-          buildscript {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-              dependencies {
-                  classpath 'com.android.tools.build:gradle:7.4.2'
-              }
-          }
-          allprojects {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-EOF
         fi
 
     - name: Build with Gradle
       run: |
-        chmod +x gradlew || true
         if [ -f "gradlew" ]; then
-          ./gradlew assembleDebug --stacktrace
+          chmod +x gradlew
+          ./gradlew assembleDebug
         else
-          gradle assembleDebug --stacktrace
+          gradle wrapper
+          ./gradlew assembleDebug
         fi
 
     - name: Upload APK Artifact
