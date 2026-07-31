@@ -26,20 +26,26 @@ jobs:
           unzip -q clean_project.zip -d my_project_build
         fi
 
-    - name: Grant execute permission and Build Debug APK
+    - name: Ensure Gradle Wrapper and Build Debug APK
       run: |
-        # البحث التلقائي عن المجلد الذي يحتوي على ملف gradlew متغلغلاً داخل المجلدات الفرعية
-        PROJECT_DIR=$(find my_project_build -name "gradlew" -exec dirname {} \;)
+        # البحث عن المجلد الذي يحتوي على ملف build.gradle أو الانتقال لمجلد المشروع
+        PROJECT_DIR=$(find my_project_build -name "build.gradle" -exec dirname {} \; | head -n 1)
         
-        if [ -n "$PROJECT_DIR" ]; then
-          echo "Found project at: $PROJECT_DIR"
-          cd "$PROJECT_DIR"
-          chmod +x gradlew || true
-          ./gradlew assembleDebug --no-daemon
-        else
-          echo "Error: gradlew not found in any subfolders!"
-          exit 1
+        if [ -z "$PROJECT_DIR" ]; then
+          PROJECT_DIR="my_project_build"
         fi
+
+        echo "Working directory is: $PROJECT_DIR"
+        cd "$PROJECT_DIR"
+
+        # إذا لم يكن gradlew موجوداً، قم بتوليده تلقائياً
+        if [ ! -f "gradlew" ]; then
+          echo "Generating Gradle wrapper..."
+          gradle wrapper --gradle-version 8.0
+        fi
+
+        chmod +x gradlew || true
+        ./gradlew assembleDebug --no-daemon
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
