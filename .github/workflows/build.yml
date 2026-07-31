@@ -19,25 +19,31 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Unzip and Organize Project Files
+    - name: Unzip and Organize in New Folder
       run: |
         if [ -f "clean_project.zip" ]; then
-          unzip -q clean_project.zip -d extracted_project
-          # نقل محتويات المشروع المضغوط إلى الجذر الرئيسي للمستودع وترتيبها
-          rsync -avh extracted_project/ ./ 
-          rm -rf extracted_project
+          mkdir -p my_project_build
+          unzip -q clean_project.zip -d my_project_build
         fi
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew || true
-
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug --no-daemon
+    - name: Grant execute permission and Build Debug APK
+      run: |
+        # البحث التلقائي عن المجلد الذي يحتوي على ملف gradlew متغلغلاً داخل المجلدات الفرعية
+        PROJECT_DIR=$(find my_project_build -name "gradlew" -exec dirname {} \;)
+        
+        if [ -n "$PROJECT_DIR" ]; then
+          echo "Found project at: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
+          chmod +x gradlew || true
+          ./gradlew assembleDebug --no-daemon
+        else
+          echo "Error: gradlew not found in any subfolders!"
+          exit 1
+        fi
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
         path: |
-          app/build/outputs/apk/debug/*.apk
-          build/outputs/apk/debug/*.apk
+          **/build/outputs/apk/debug/*.apk
