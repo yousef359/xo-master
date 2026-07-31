@@ -19,11 +19,20 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Extract Project Files
+    - name: Extract and Fix Project Files
       run: |
         if [ -f "app.zip" ]; then
           unzip -q app.zip -d .
         fi
+        
+        # البحث عن ملف الإعدادات أياً كان اسمه المكتوب وإعادة تسميته إلى settings.gradle
+        for f in *settings*; do
+          if [ -f "$f" ] && [ "$f" != "settings.gradle" ]; then
+            cp "$f" settings.gradle
+            break
+          fi
+        done
+
         if [ ! -f "settings.gradle" ]; then
           echo "include ':app'" > settings.gradle
         fi
