@@ -28,7 +28,9 @@ jobs:
 
     - name: Ensure Gradle Wrapper and Build Debug APK
       run: |
-        # البحث عن المجلد الذي يحتوي على ملف build.gradle أو الانتقال لمجلد المشروع
+        # تثبيت أداة الـ gradle على السيرفر لضمان نجاح توليد الـ wrapper
+        sudo apt-get update && sudo apt-get install -y gradle
+
         PROJECT_DIR=$(find my_project_build -name "build.gradle" -exec dirname {} \; | head -n 1)
         
         if [ -z "$PROJECT_DIR" ]; then
@@ -38,7 +40,6 @@ jobs:
         echo "Working directory is: $PROJECT_DIR"
         cd "$PROJECT_DIR"
 
-        # إذا لم يكن gradlew موجوداً، قم بتوليده تلقائياً
         if [ ! -f "gradlew" ]; then
           echo "Generating Gradle wrapper..."
           gradle wrapper --gradle-version 8.0
