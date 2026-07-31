@@ -1,0 +1,44 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Unzip Clean Project
+      run: |
+        if [ -f "clean_project.zip" ]; then
+          unzip -q clean_project.zip -d .
+        fi
+
+    - name: Build with Gradle
+      run: |
+        chmod +x gradlew || true
+        if [ -f "gradlew" ]; then
+          ./gradlew assembleDebug
+        else
+          gradle wrapper
+          ./gradlew assembleDebug
+        fi
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug
+        path: |
+          app/build/outputs/apk/debug/*.apk
+          build/outputs/apk/debug/*.apk
