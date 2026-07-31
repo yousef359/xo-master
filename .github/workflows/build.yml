@@ -26,11 +26,8 @@ jobs:
           unzip -q clean_project.zip -d my_project_build
         fi
 
-    - name: Ensure Gradle Wrapper and Build Debug APK
+    - name: Fix Gradle Version and Build Debug APK
       run: |
-        # تثبيت أداة الـ gradle على السيرفر لضمان نجاح توليد الـ wrapper
-        sudo apt-get update && sudo apt-get install -y gradle
-
         PROJECT_DIR=$(find my_project_build -name "build.gradle" -exec dirname {} \; | head -n 1)
         
         if [ -z "$PROJECT_DIR" ]; then
@@ -40,9 +37,9 @@ jobs:
         echo "Working directory is: $PROJECT_DIR"
         cd "$PROJECT_DIR"
 
-        if [ ! -f "gradlew" ]; then
-          echo "Generating Gradle wrapper..."
-          gradle wrapper --gradle-version 8.0
+        # تحديث إصدار Gradle تلقائياً ليتوافق مع البيئة الحديثة وتجنب أي أخطاء
+        if [ -f "gradle/wrapper/gradle-wrapper.properties" ]; then
+          sed -i 's/distributionUrl=.*\\/gradle-.*-all\\.zip/distributionUrl=https\\://services.gradle.org/distributions/gradle-8.0-all.zip/g' gradle/wrapper/gradle-wrapper.properties
         fi
 
         chmod +x gradlew || true
