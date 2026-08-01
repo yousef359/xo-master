@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#070913">
+    
+    <title>إكس أو Master Pro - XO Master Pro</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --bg-dark: #070913;
+            --card-glass: rgba(255, 255, 255, 0.05);
+            --card-glass-hover: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --card-border-glow: rgba(255, 255, 255, 0.3);
+            --text-main: #f8fafc;
+            --x-color: #38bdf8;
+            --x-glow: rgba(56, 189, 248, 0.7);
+            --o-color: #ff2247;
+            --o-glow: rgba(255, 34, 71, 0.95);
+        }
+
+        body.theme-cyber { --bg-dark: #030712; --x-color: #06b6d4; --x-glow: rgba(6, 182, 212, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-sunset { --bg-dark: #18121a; --x-color: #f97316; --x-glow: rgba(249, 115, 22, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-emerald { --bg-dark: #022c22; --x-color: #34d399; --x-glow: rgba(52, 211, 153, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-royal { --bg-dark: #1e1b4b; --x-color: #c084fc; --x-glow: rgba(192, 132, 252, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-crimson { --bg-dark: #2a0808; --x-color: #ff4d4d; --x-glow: rgba(255, 77, 77, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-ocean { --bg-dark: #061a2d; --x-color: #38bdf8; --x-glow: rgba(56, 189, 248, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-matrix { --bg-dark: #022008; --x-color: #22c55e; --x-glow: rgba(34, 197, 94, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-amethyst { --bg-dark: #1c0a27; --x-color: #d946ef; --x-glow: rgba(217, 70, 239, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-gold { --bg-dark: #1c1808; --x-color: #fde047; --x-glow: rgba(253, 224, 71, 0.8); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        body.theme-mono { --bg-dark: #121212; --x-color: #ffffff; --x-glow: rgba(255, 255, 255, 0.7); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95); }
+        
+        body.theme-aurora {
+            background: linear-gradient(120deg, #0f172a, #064e3b, #1e1b4b, #0f172a);
+            background-size: 400% 400%; animation: gradientWave 10s ease infinite;
+            --x-color: #2dd4bf; --x-glow: rgba(45, 212, 191, 0.9); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95);
+        }
+        body.theme-neonpulse {
+            background: linear-gradient(220deg, #18022d, #3b0764, #1e1b4b, #030712);
+            background-size: 300% 300%; animation: gradientWave 8s ease infinite;
+            --x-color: #e879f9; --x-glow: rgba(232, 121, 249, 0.9); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95);
+        }
+        body.theme-liquidfire {
+            background: linear-gradient(180deg, #1f1005, #451a03, #292524, #0c0a09);
+            background-size: 300% 300%; animation: gradientWave 7s ease infinite;
+            --x-color: #fb923c; --x-glow: rgba(251, 146, 60, 0.9); --o-color: #ff2247; --o-glow: rgba(255, 34, 71, 0.95);
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+        html, body {
+            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark); color: var(--text-main);
+            display: flex; justify-content: center; align-items: center; position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .bg-glow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: orbFloat 12s infinite alternate ease-in-out; }
+        .orb-1 { width: 300px; height: 300px; background: var(--x-color); top: -50px; left: -50px; }
+        .orb-2 { width: 320px; height: 320px; background: var(--o-color); bottom: -80px; right: -80px; animation-delay: -6s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.15); }
+        }
+
+        .app-container {
+            position: relative; z-index: 10; width: 100%; height: 100vh; max-width: 400px;
+            display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; padding: 16px;
+        }
+
+        .top-bar { display: flex; align-items: center; gap: 6px; width: 100%; }
+        .icon-btn {
+            background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 16px;
+            width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-size: 1rem; color: var(--text-main); backdrop-filter: blur(10px);
+        }
+        .mode-switch {
+            flex: 1; background: rgba(0, 0, 0, 0.4); padding: 3px; border-radius: 16px;
+            display: flex; gap: 4px; border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .mode-btn {
+            flex: 1; border: none; background: transparent; padding: 7px 4px; border-radius: 12px;
+            font-size: 0.7rem; font-weight: 700; color: #94a3b8; cursor: pointer; white-space: nowrap;
+        }
+        .mode-btn.active {
+            background: linear-gradient(135deg, #6366f1, #4f46e5); color: #ffffff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .difficulty-bar { display: flex; gap: 6px; width: 100%; }
+        .diff-btn {
+            flex: 1; border: 1px solid var(--card-border); background: var(--card-glass);
+            padding: 6px 0; border-radius: 12px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; cursor: pointer; text-align: center;
+        }
+        .diff-btn.active {
+            background: linear-gradient(135deg, #06b6d4, #0891b2); color: #ffffff;
+            border-color: #22d3ee; box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+        }
+
+        .scoreboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+        .score-card {
+            background: var(--card-glass); border: 1px solid var(--card-border); border-radius: 18px;
+            padding: 8px 4px; text-align: center; backdrop-filter: blur(10px);
+        }
+        .score-title { font-size: 0.7rem; font-weight: 800; margin-bottom: 2px; }
+        .score-card.x-card .score-title { color: var(--x-color); }
+        .score-card.draw-card .score-title { color: #94a3b8; }
+        .score-card.o-card .score-title { color: var(--o-color); }
+        .score-value { font-size: 1.25rem; font-weight: 900; }
+
+        .turn-container { width: 100%; display: flex; align-items: center; justify-content: center; }
+        .turn-indicator {
+            width: 100%; max-width: 310px; height: 48px; padding: 8px 14px; border-radius: 14px; font-size: 0.8rem; font-weight: 800;
+            text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; backdrop-filter: blur(10px);
+        }
+        .turn-indicator.turn-x { background: rgba(56, 189, 248, 0.12); color: var(--x-color); border: 1px solid var(--x-color); }
+        .turn-indicator.turn-o { background: rgba(255, 34, 71, 0.18); color: var(--o-color); border: 1.5px solid var(--o-color); }
+
+        .board-wrapper { position: relative; width: 100%; max-width: 310px; aspect-ratio: 1 / 1; margin: 2px 0; }
+        .board { display: grid; gap: 10px; width: 100%; height: 100%; }
+
+        .cell {
+            width: 100%; height: 100%; background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border); border-radius: 20px; display: flex;
+            justify-content: center; align-items: center; cursor: pointer;
+            font-size: 2.2rem; font-weight: 900; backdrop-filter: blur(10px);
+        }
+        .cell svg { width: 55%; height: 55%; stroke-width: 10px; stroke-linecap: round; stroke-linejoin: round; }
+        .x-icon { stroke: var(--x-color); fill: none; }
+        .o-icon { stroke: var(--o-color); fill: none; }
+
+        .bottom-actions { display: flex; gap: 8px; width: 100%; }
+        .action-btn {
+            flex: 1; padding: 10px; border-radius: 14px; border: 1px solid var(--card-border);
+            background: var(--card-glass); font-size: 0.78rem; font-weight: 800; cursor: pointer; color: var(--text-main);
+        }
+        .action-btn.reset-btn { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-glow-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    <div class="app-container">
+        <div class="top-bar">
+            <button class="icon-btn" id="settingsBtn">⚙️</button>
+            <div class="mode-switch">
+                <button class="mode-btn active" id="modeAi">🤖 ضد الكمبيوتر</button>
+                <button class="mode-btn" id="modePvp">👥 لاعبان</button>
+            </div>
+        </div>
+        <div class="difficulty-bar">
+            <button class="diff-btn active" data-diff="impossible">مستحيل</button>
+        </div>
+        <div class="scoreboard">
+            <div class="score-card x-card"><div class="score-title">اللاعب X</div><div class="score-value" id="scoreX">0</div></div>
+            <div class="score-card draw-card"><div class="score-title">تعادل</div><div class="score-value" id="scoreDraw">0</div></div>
+            <div class="score-card o-card"><div class="score-title">الكمبيوتر</div><div class="score-value" id="scoreO">0</div></div>
+        </div>
+        <div class="turn-container">
+            <div class="turn-indicator turn-x" id="turnIndicator">دور اللاعب X الآن</div>
+        </div>
+        <div class="board-wrapper">
+            <div class="board" id="board"></div>
+        </div>
+        <div class="bottom-actions">
+            <button class="action-btn" id="clearScoreBtn">إعادة النتائج</button>
+            <button class="action-btn reset-btn" id="newGameBtn">لعبة جديدة</button>
+        </div>
+    </div>
+    <script>
+        const boardEl = document.getElementById('board');
+        let board = Array(9).fill(''), currentPlayer = 'X', isGameActive = true, scores = {x:0, o:0, draw:0};
+        function init() {
+            boardEl.innerHTML = '';
+            board.forEach((val, idx) => {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = idx;
+                cell.innerHTML = val === 'X' ? '<svg class="x-icon" viewBox="0 0 100 100"><path d="M20,20 L80,80 M80,20 L20,80"/></svg>' : val === 'O' ? '<svg class="o-icon" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35"/></svg>' : '';
+                cell.addEventListener('click', () => makeMove(idx));
+                boardEl.appendChild(cell);
+            });
+        }
+        function makeMove(idx) {
+            if (board[idx] !== '' || !isGameActive) return;
+            board[idx] = currentPlayer;
+            init();
+            if (checkWin(currentPlayer)) {
+                alert(`الفائز هو ${currentPlayer}!`);
+                scores[currentPlayer.toLowerCase()]++;
+                updateScores();
+                isGameActive = false;
+                return;
+            }
+            if (board.every(c => c !== '')) {
+                alert('تعادل!');
+                scores.draw++;
+                updateScores();
+                isGameActive = false;
+                return;
+            }
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('turnIndicator').innerText = `دور اللاعب ${currentPlayer} الآن`;
+        }
+        function checkWin(p) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(w => w.every(i => board[i] === p));
+        }
+        function updateScores() {
+            document.getElementById('scoreX').innerText = scores.x;
+            document.getElementById('scoreO').innerText = scores.o;
+            document.getElementById('scoreDraw').innerText = scores.draw;
+        }
+        document.getElementById('newGameBtn').addEventListener('click', () => { board = Array(9).fill(''); currentPlayer = 'X'; isGameActive = true; init(); });
+        document.getElementById('clearScoreBtn').addEventListener('click', () => { scores = {x:0, o:0, draw:0}; updateScores(); });
+        init();
+    </script>
+</body>
+</html>
