@@ -1,0 +1,6 @@
+{
+  "appId": "com.xomaster.pro",
+  "appName": "إكس أو Master Pro",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}
