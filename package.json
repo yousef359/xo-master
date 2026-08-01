@@ -1,0 +1,16 @@
+{
+  "name": "xo-master-pro",
+  "version": "1.0.0",
+  "description": "XO Master Pro Android Native App",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'App ready for native build'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/core": "^5.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.0.0"
+  }
+}
